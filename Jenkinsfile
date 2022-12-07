@@ -54,8 +54,8 @@ pipeline {
                    echo 'deploying docker image to EC2...'
                    def shellCmd = "bash ./shellscript.sh ${IMAGE_NAME}"
                    sshagent(['ec2-server-key']){
-                       sh "scp -o StrictHostKeyChecking=no shellscript.sh ec2-user@35.180.138.199:/home/ec2-user"
-                       sh "scp -o StrictHostKeyChecking=no docker-compose.yaml ec2-user@35.180.138.199:/home/ec2-user"
+                       sh "scp -o StrictHostKeyChecking=no shellscript.sh ec2-user@IP:/home/ec2-user"
+                       sh "scp -o StrictHostKeyChecking=no docker-compose.yaml ec2-user@IP:/home/ec2-user"
                        sh "ssh -o StrictHostKeyChecking=no ec2-user@35.180.138.199 ${shellCmd}"
                    }
                 }
@@ -69,10 +69,10 @@ pipeline {
                         sh 'git config --global user.email "jenkins@example.com"'
                         sh 'git config --global user.name "jenkins"'
                         sh 'git status'
-                        sh "git remote set-url origin https://${USER}:${PASS}@gitlab.com/noucair_zemrani/java-app.git"
+                        sh "git remote set-url origin https://${USER}:${PASS}@github.com/noucair/lab1-Versioning-application-"
                         sh 'git add .'
                         sh 'git commit -m "ci: version bump"'
-                        sh 'git push origin HEAD:docker-compose-pom'
+                        sh 'git push -u origin main'
                     }
                 }
             }
